@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=gzip
 PKG_VERSION:=1.10
-PKG_RELEASE:=3
+PKG_RELEASE:=4
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=@GNU/gzip
@@ -46,6 +46,8 @@ CONFIGURE_VARS += \
 
 define Package/gzip/install
 	$(SED) 's,/bin/bash,/bin/sh,g' $(PKG_INSTALL_DIR)/usr/bin/{gunzip,zcat}
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/{gzexe,zcmp,zdiff,zegrep,zfgrep,zforce,zgrep,zless,zmore,znew} $(1)/usr/bin
 	$(INSTALL_DIR) $(1)/usr/libexec
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/gunzip $(1)/usr/libexec/gunzip-gnu
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/gzip $(1)/usr/libexec/gzip-gnu
