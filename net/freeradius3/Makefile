@@ -690,8 +690,7 @@ define Build/Compile
 endef
 
 define Package/freeradius3-common/install
-	$(INSTALL_DIR) $(1)/etc/freeradius3
-	chmod 771 $(1)/etc/freeradius3
+	install -d -m0771 $(1)/etc/freeradius3
 	$(CP) $(PKG_INSTALL_DIR)/etc/freeradius3/dictionary $(1)/etc/freeradius3/ ; \
 	$(INSTALL_DIR) $(1)/usr/lib/freeradius3
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/freeradius3/libfreeradius-{dhcp,eap,radius,server}.so $(1)/usr/lib/freeradius3

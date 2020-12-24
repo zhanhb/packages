@@ -207,8 +207,7 @@ define Package/libsane/install
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libsane.so.* $(1)/usr/lib/
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/sane/libsane-dll.so.* $(1)/usr/lib/sane/
 	$(INSTALL_DIR) $(1)/etc/sane.d/dll.d
-	$(INSTALL_CONF) $(PKG_INSTALL_DIR)/etc/sane.d/dll.conf $(1)/etc/sane.d/
-	chmod 0644 $(1)/etc/sane.d/dll.conf
+	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/etc/sane.d/dll.conf $(1)/etc/sane.d/
 endef
 
 define Package/libsane/conffiles
@@ -217,8 +216,7 @@ endef
 
 define Package/sane-daemon/install
 	$(INSTALL_DIR) $(1)/etc/sane.d
-	$(INSTALL_CONF) $(PKG_INSTALL_DIR)/etc/sane.d/saned.conf $(1)/etc/sane.d/
-	chmod 0644 $(1)/etc/sane.d/saned.conf
+	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/etc/sane.d/saned.conf $(1)/etc/sane.d/
 	$(INSTALL_DIR) $(1)/usr/sbin
 	$(INSTALL_BIN) ./files/saned.sbin $(1)/usr/sbin/saned
 	$(INSTALL_DIR) $(1)/usr/lib/sane/

@@ -116,7 +116,7 @@ define Build/Configure
 	                                files/misc.config \
 	                                > $(PKG_BUILD_DIR)/config.sh
 	(cd $(PKG_BUILD_DIR) && ./Configure -S)
-	install -m 0644 $(PKG_BUILD_DIR)/config.h $(PKG_BUILD_DIR)/xconfig.h
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/config.h $(PKG_BUILD_DIR)/xconfig.h
 endef
 
 define Build/Compile
