@@ -197,7 +197,7 @@ define Build/Compile
 endef
 
 define Package/openssh-moduli/install
-	$(INSTALL_DIR) $(1)/etc/ssh
+	install -d -m0700 $(1)/etc/ssh
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/etc/ssh/moduli $(1)/etc/ssh/
 endef
 
