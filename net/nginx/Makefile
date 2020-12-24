@@ -75,6 +75,9 @@ PKG_CONFIG_DEPENDS := \
 
 include $(INCLUDE_DIR)/package.mk
 
+export LUAJIT_LIB=$(STAGING_DIR)/usr/lib
+export LUAJIT_INC=$(STAGING_DIR)/usr/include/luajit-2.1
+
 define Package/nginx/default
   SECTION:=net
   CATEGORY:=Network
@@ -96,8 +99,9 @@ define Package/nginx-ssl
   VARIANT:=ssl
   DEPENDS+= +NGINX_PCRE:libpcre \
 	+NGINX_PCRE:nginx-ssl-util +!NGINX_PCRE:nginx-ssl-util-nopcre \
-	+NGINX_HTTP_GZIP:zlib +NGINX_LUA:liblua +libpthread +NGINX_DAV:libxml2 \
-	+NGINX_UBUS:libubus +NGINX_UBUS:libblobmsg-json +NGINX_UBUS:libjson-c
+	+NGINX_HTTP_GZIP:zlib +NGINX_LUA:liblua +NGINX_LUA:luajit +libpthread \
+	+NGINX_DAV:libxml2 +NGINX_UBUS:libubus +NGINX_UBUS:libblobmsg-json \
+	+NGINX_UBUS:libjson-c
   CONFLICTS:=nginx-all-module
 endef
 
@@ -109,7 +113,7 @@ define Package/nginx-all-module
   $(Package/nginx/default)
   TITLE += with ALL module selected
   DEPENDS+=+libpcre +nginx-ssl-util +zlib +liblua +libxml2 +libubus \
-	+libblobmsg-json +libjson-c
+	+libblobmsg-json +libjson-c +luajit
   VARIANT:=all-module
   PROVIDES += nginx-ssl
 endef
@@ -493,11 +497,11 @@ endif
 
 ifeq ($(CONFIG_NGINX_LUA),y)
   define Download/lua-nginx
-    VERSION:=e94f2e5d64daa45ff396e262d8dab8e56f5f10e0
+    VERSION:=v0.10.19
     SUBDIR:=lua-nginx
     FILE:=lua-nginx-module-$$(VERSION).tar.xz
     URL:=https://github.com/openresty/lua-nginx-module.git
-    MIRROR_HASH:=27729921964f066d97e99c263da153b34622a2f4b811114e4c3ee61c6fc71395
+    MIRROR_HASH:=c70418252d0d14bc696d9119d55a0c58604acf9274ba68671201c1e4fd9972b0
     PROTO:=git
   endef
   $(eval $(call Download,lua-nginx))
