@@ -420,11 +420,11 @@ endif
 
 ifeq ($(CONFIG_NGINX_HTTP_BROTLI),y)
   define Download/nginx-brotli
-    VERSION:=e505dce68acc190cc5a1e780a3b0275e39f160ca
+    VERSION:=9aec15e2aa6feea2113119ba06460af70ab3ea62
     SUBDIR:=nginx-brotli
     FILE:=ngx-brotli-module-$$(VERSION).tar.xz
     URL:=https://github.com/google/ngx_brotli.git
-    MIRROR_HASH:=04847f11ef808fed50f44b2af0ef3abf59ff0ffc06dfc7394d9ab51d53fef31f
+    MIRROR_HASH:=422da7a52f58d202a7436ce88f684501eff19199f43a9e823d7ca6181f38aa72
     PROTO:=git
   endef
   $(eval $(call Download,nginx-brotli))
@@ -475,11 +475,11 @@ endif
 
 ifeq ($(CONFIG_NGINX_NAXSI),y)
   define Download/nginx-naxsi
-    VERSION:=951123ad456bdf5ac94e8d8819342fe3d49bc002
+    VERSION:=1.3
     SUBDIR:=nginx-naxsi
     FILE:=nginx-naxsi-module-$$(VERSION).tar.xz
     URL:=https://github.com/nbs-system/naxsi.git
-    MIRROR_HASH:=c734cae19a596affadd62a2df1b58d3df8d1364093a4e80a7cd1ab4555963535
+    MIRROR_HASH:=2dab3b2347084f0c011749dda7d43d2f34762aa6fb276364fadeac8eff221e71
     PROTO:=git
   endef
   $(eval $(call Download,nginx-naxsi))
@@ -512,7 +512,7 @@ endif
 
 ifeq ($(CONFIG_NGINX_DAV),y)
   define Download/nginx-dav-ext-module
-    VERSION:=f5e30888a256136d9c550bf1ada77d6ea78a48af
+    VERSION:=v3.0.0
     SUBDIR:=nginx-dav-ext-module
     FILE:=nginx-dav-ext-module-$$(VERSION).tar.xz
     URL:=https://github.com/arut/nginx-dav-ext-module.git
