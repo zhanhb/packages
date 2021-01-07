@@ -7,10 +7,6 @@ USE_PROCD=1
 
 G_OPTS="daemon off;"
 
-NGINX_UTIL="/usr/bin/nginx-util"
-
-eval $("${NGINX_UTIL}" get_env)
-
 CONF=""
 
 
@@ -21,7 +17,8 @@ nginx_init() {
 	[ -d /var/lib/nginx ] || mkdir -p /var/lib/nginx
 
 	rm -f "$(readlink "${UCI_CONF}")"
-	${NGINX_UTIL} init_lan
+	CONF_DIR=/etc/nginx/conf.d/
+	NGINX_CONF=/etc/nginx/nginx.conf
 
 	if [ -e "${UCI_CONF}" ]
 	then CONF="${UCI_CONF}"
@@ -48,8 +45,7 @@ start_service() {
 	procd_set_param command /usr/sbin/nginx -c "${CONF}" -g "${G_OPTS}"
 	procd_set_param stdout 1
 	procd_set_param stderr 1
-	procd_set_param file "${CONF}" "${CONF_DIR}*.crt" "${CONF_DIR}*.key" \
-		"${CONF_DIR}*.conf" "${CONF_DIR}*.locations"
+	procd_set_param file "${CONF}" "${CONF_DIR}*.conf" "${CONF_DIR}*.locations"
 	procd_set_param respawn
 	procd_close_instance
 }
