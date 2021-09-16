@@ -311,7 +311,7 @@ endef
 
 define Download/nginx-mod-dav-ext
   SOURCE_DATE:=2018-12-17
-  SOURCE_VERSION:=f5e30888a256136d9c550bf1ada77d6ea78a48af
+  SOURCE_VERSION:=v3.0.0
   URL:=https://github.com/arut/nginx-dav-ext-module.git
   MIRROR_HASH:=c574e60ffab5f6e5d8bea18aab0799c19cd9a84f3d819b787e9af4f0e7867b52
   PROTO:=git
