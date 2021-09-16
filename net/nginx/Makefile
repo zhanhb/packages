@@ -531,7 +531,7 @@ define Prepare/lua-nginx
 endef
 
 define Download/nginx-dav-ext-module
-  VERSION:=f5e30888a256136d9c550bf1ada77d6ea78a48af
+  VERSION:=v3.0.0
   SUBDIR:=nginx-dav-ext-module
   FILE:=nginx-dav-ext-module-$$(VERSION).tar.xz
   URL:=https://github.com/arut/nginx-dav-ext-module.git
