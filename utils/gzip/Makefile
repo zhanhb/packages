@@ -22,13 +22,18 @@ PKG_INSTALL:=1
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/gzip
+define Package/gzip/Default
   SECTION:=utils
   CATEGORY:=Utilities
   SUBMENU:=Compression
-  TITLE:=gzip (GNU zip) is a compression utility.
   URL:=https://www.gnu.org/software/gzip/
   MAINTAINER:=Christian Beier <dontmind@freeshell.org>
+endef
+
+define Package/gzip
+  $(call Package/gzip/Default)
+  TITLE:=gzip (GNU zip) is a compression utility.
+  DEPENDS:=
   ALTERNATIVES:=\
     300:/bin/gunzip:/usr/libexec/gunzip-gnu \
     300:/bin/gzip:/usr/libexec/gzip-gnu \
@@ -40,12 +45,47 @@ define Package/gzip/description
 	replacement for compress.
 endef
 
+define Package/zdiff
+  $(call Package/gzip/Default)
+  TITLE:=GNU zip zcmp/zdiff utility.
+  DEPENDS:=+diffutils +gzip
+endef
+
+define Package/zdiff/install
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/{zcmp,zdiff} $(1)/usr/bin
+endef
+
+define Package/zless
+  $(call Package/gzip/Default)
+  TITLE:=GNU zip zless utility.
+  DEPENDS:=+gzip +less
+endef
+
+define Package/zless/install
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/zless $(1)/usr/bin
+endef
+
+define Package/zmore
+  $(call Package/gzip/Default)
+  TITLE:=GNU zip zmore utility.
+  DEPENDS:=+gzip +more
+endef
+
+define Package/zmore/install
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/zmore $(1)/usr/bin
+endef
+
 CONFIGURE_VARS += \
 	gl_cv_func_getopt_gnu=yes \
+	ac_cv_path_GREP=/bin/grep \
 	ac_cv_search_clock_gettime=no
 
 define Package/gzip/install
-	$(SED) 's,/bin/bash,/bin/sh,g' $(PKG_INSTALL_DIR)/usr/bin/{gunzip,zcat}
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/{gzexe,zegrep,zfgrep,zforce,zgrep,znew} $(1)/usr/bin
 	$(INSTALL_DIR) $(1)/usr/libexec
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/gunzip $(1)/usr/libexec/gunzip-gnu
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/gzip $(1)/usr/libexec/gzip-gnu
@@ -53,3 +93,6 @@ define Package/gzip/install
 endef
 
 $(eval $(call BuildPackage,gzip))
+$(eval $(call BuildPackage,zdiff))
+$(eval $(call BuildPackage,zless))
+$(eval $(call BuildPackage,zmore))
