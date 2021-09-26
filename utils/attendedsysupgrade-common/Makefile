@@ -47,12 +47,16 @@ endef
 define Build/Configure
 endef
 
+define Package/attendedsysupgrade-common/conffiles
+/etc/config/attendedsysupgrade
+endef
+
 define Package/attendedsysupgrade-common/install
-	$(INSTALL_DIR) $(1)/etc/uci-defaults/
-	$(INSTALL_BIN) ./files/attendedsysupgrade.defaults $(1)/etc/uci-defaults/attendedsysupgrade
+	$(INSTALL_DIR) $(1)/etc/config/
+	$(INSTALL_DATA) ./files/attendedsysupgrade.config $(1)/etc/config/attendedsysupgrade
 
 	$(INSTALL_DIR) $(1)/etc/opkg/keys/
-	$(INSTALL_BIN) ./files/86241a707a30cb7f $(1)/etc/opkg/keys/86241a707a30cb7f
+	$(INSTALL_DATA) ./files/86241a707a30cb7f $(1)/etc/opkg/keys/86241a707a30cb7f
 endef
 
 $(eval $(call BuildPackage,attendedsysupgrade-common))
