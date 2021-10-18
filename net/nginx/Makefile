@@ -367,11 +367,8 @@ define Package/nginx-ssl/install
 	$(INSTALL_BIN) ./files/nginx.init $(1)/etc/init.d/nginx
 ifeq ($(CONFIG_NGINX_NAXSI),y)
 	$(INSTALL_DIR) $(1)/etc/nginx
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/nginx-naxsi/naxsi_config/naxsi_core.rules $(1)/etc/nginx
-	chmod 0640 $(1)/etc/nginx/naxsi_core.rules
+	install -m0640 $(PKG_BUILD_DIR)/nginx-naxsi/naxsi_config/naxsi_core.rules $(1)/etc/nginx
 endif
-	$(if $(CONFIG_NGINX_NAXSI),$($(INSTALL_BIN) $(PKG_BUILD_DIR)/nginx-naxsi/naxsi_config/naxsi_core.rules $(1)/etc/nginx))
-	$(if $(CONFIG_NGINX_NAXSI),$(chmod 0640 $(1)/etc/nginx/naxsi_core.rules))
 endef
 
 Package/nginx-all-module/install = $(Package/nginx-ssl/install)

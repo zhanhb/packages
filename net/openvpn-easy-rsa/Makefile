@@ -73,12 +73,7 @@ define Package/openvpn-easy-rsa/install
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/dist-staging/unix/EasyRSA-$(PKG_VERSION)/vars.example $(1)/etc/easy-rsa/vars
 	$(LN) ../../../etc/easy-rsa/vars $(1)/usr/lib/easy-rsa/vars
 
-	$(INSTALL_DIR) $(1)/etc/easy-rsa/pki
-	chmod 700 $(1)/etc/easy-rsa/pki
-	$(INSTALL_DIR) $(1)/etc/easy-rsa/pki/private
-	chmod 700 $(1)/etc/easy-rsa/pki/private
-	$(INSTALL_DIR) $(1)/etc/easy-rsa/pki/reqs
-	chmod 700 $(1)/etc/easy-rsa/pki/reqs
+	install -d -m0700 $(1)/etc/easy-rsa/pki/{,private,reqs}
 
 	$(INSTALL_DIR) $(1)/etc/easy-rsa/x509-types
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/dist-staging/unix/EasyRSA-$(PKG_VERSION)/x509-types/* $(1)/etc/easy-rsa/x509-types/

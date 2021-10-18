@@ -58,8 +58,7 @@ define Package/fdm/install
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/* $(1)/usr/bin/
 	$(INSTALL_DIR) $(1)/etc
 	$(INSTALL_DATA) ./files/etc/* $(1)/etc/
-	$(INSTALL_DIR) $(1)/opt/fdm
-	chmod a+rwx $(1)/opt/fdm
+	install -d -m0777 $(1)/opt/fdm
 endef
 
 define Package/fdm/postinst

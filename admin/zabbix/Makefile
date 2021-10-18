@@ -253,8 +253,7 @@ endef
 define Package/zabbix-extra-mac80211/install
 	$(call Package/zabbix/install/zabbix.conf.d,$(1),mac80211)
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/zabbix-extra-mac80211/zabbix_helper_mac80211 $(1)/usr/bin/
-	chmod 4755 $(1)/usr/bin/zabbix_helper_mac80211
+	$(INSTALL_SUID) $(PKG_BUILD_DIR)/zabbix-extra-mac80211/zabbix_helper_mac80211 $(1)/usr/bin/
 endef
 
 define Package/zabbix-extra-network/install

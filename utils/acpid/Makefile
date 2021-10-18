@@ -49,8 +49,7 @@ define Package/acpid/install
 	$(INSTALL_DIR) $(1)/etc/acpi/events
 	$(INSTALL_CONF) ./files/default $(1)/etc/acpi/events/default
 	$(INSTALL_DIR) $(1)/etc/init.d
-	$(INSTALL_CONF) ./files/acpid.init $(1)/etc/init.d/acpid
-	chmod 0750 $(1)/etc/init.d/acpid
+	install -m0750 ./files/acpid.init $(1)/etc/init.d/acpid
 	$(INSTALL_DIR) $(1)/etc/hotplug.d/input/
 	$(INSTALL_CONF) ./files/acpid.hotplug $(1)/etc/hotplug.d/input/
 endef
