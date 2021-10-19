@@ -25,7 +25,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/acme-acmesh
   SECTION:=net
   CATEGORY:=Network
-  DEPENDS:=+acme-common +wget-ssl +ca-bundle +openssl-util +socat
+  DEPENDS:=+acme-common +wget-ssl +ca-bundle +openssl-util
   TITLE:=ACME client acme.sh wrapper script
   URL:=https://acme.sh
   PKGARCH:=all
