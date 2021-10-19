@@ -25,7 +25,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/acme
   SECTION:=net
   CATEGORY:=Network
-  DEPENDS:=+wget-ssl +ca-bundle +openssl-util +socat
+  DEPENDS:=+wget-ssl +ca-bundle +openssl-util
   TITLE:=ACME (Letsencrypt) client
   URL:=https://acme.sh
   PKGARCH:=all
