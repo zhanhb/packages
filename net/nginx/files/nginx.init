@@ -9,7 +9,7 @@ G_OPTS="daemon off;"
 
 NGINX_UTIL="/usr/bin/nginx-util"
 
-eval $("${NGINX_UTIL}" get_env)
+[ -n "$IPKG_INSTROOT" ] || eval $("${NGINX_UTIL}" get_env)
 
 CONF=""
 
