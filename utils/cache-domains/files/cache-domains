@@ -17,6 +17,7 @@ dnsmasq_conf() {
 
 	while uci_get "dhcp" "@dnsmasq[${I}]" > /dev/null; do
 		DNSMASQ_CONF_DIR="$(uci_get "dhcp" "@dnsmasq[${I}]" "confdir" "/tmp/dnsmasq.d" || :)"
+		DNSMASQ_CONF_DIR="${DNSMASQ_CONF_DIR%%,*}"
 		uci_remove_list "dhcp" "@dnsmasq[${I}]" "addnmount" "${ADDN_CONF_DIR}"
 
 		mkdir -p "${DNSMASQ_CONF_DIR}"
