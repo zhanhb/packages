@@ -16,6 +16,7 @@ dnsmasq_conf() {
 
 	while uci_get "dhcp" "@dnsmasq[${I}]" > /dev/null; do
 		DNSMASQ_CONF_DIR="$(uci_get "dhcp" "@dnsmasq[${I}]" "confdir" "/tmp/dnsmasq.d" || :)"
+		DNSMASQ_CONF_DIR="${DNSMASQ_CONF_DIR%%,*}"
 		DNSMASQ_CONF_FILE="${DNSMASQ_CONF_DIR}/$(basename "${CACHE_DOMAINS_CONF_FILE}")"
 
 		case ${1} in
