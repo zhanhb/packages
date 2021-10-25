@@ -140,6 +140,10 @@ config_files := mime.types \
 	$(if $(call IsEnabled,NGINX_HTTP_UWSGI),uwsgi_params) \
 	$(if $(call IsEnabled,NGINX_HTTP_SCGI),scgi_params)
 
+define Package/nginx-mod-luci/conffiles
+/etc/nginx/conf.d/luci.locations
+endef
+
 define Package/nginx-ssl/install
 	$(INSTALL_DIR) $(1)/usr/sbin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/sbin/nginx $(1)/usr/sbin/
