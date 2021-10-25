@@ -421,6 +421,10 @@ define Package/nginx-mod-luci/install
 	$(INSTALL_BIN) ./files-luci-support/60_nginx-luci-support $(1)/etc/uci-defaults/60_nginx-luci-support
 endef
 
+define Package/nginx-mod-luci/conffiles
+/etc/nginx/conf.d/luci.locations
+endef
+
 define Package/nginx-ssl/install
 	$(INSTALL_DIR) $(1)/usr/sbin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/sbin/nginx $(1)/usr/sbin/
