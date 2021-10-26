@@ -10,7 +10,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=xz
 PKG_VERSION:=5.4.4
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
 PKG_SOURCE_URL:=@SF/lzmautils
@@ -38,6 +38,7 @@ define Package/xz-utils
 $(call Package/xz/Default)
   TITLE:=XZ Utils (meta)
   MENU:=1
+  DEPENDS:=+xzdec +xzdiff +xzgrep +xzless +xzmore
 endef
 
 define Package/liblzma
@@ -55,7 +56,7 @@ define BuildSubPackage
 
   define Package/$(1)
   $(call Package/xz/Default)
-    DEPENDS:=xz-utils $(2)
+    DEPENDS:=$(2)
     TITLE:=$(1) utility from XZ Utils
     $(if $(3),ALTERNATIVES:=$(foreach f,$(1) $(3),300:/usr/bin/$(f):/usr/libexec/$(1)-lzmautils))
   endef
@@ -119,7 +120,7 @@ $(eval $(call BuildSubPackage,lzmadec, +liblzma,))
 $(eval $(call BuildSubPackage,lzmainfo, +liblzma,))
 $(eval $(call BuildSubPackage,xz, +liblzma, lzcat lzma unlzma unxz xzcat))
 $(eval $(call BuildSubPackage,xzdec, +liblzma,))
-$(eval $(call BuildSubPackage,xzdiff, +xz, lzcmp lzdiff xzcmp))
+$(eval $(call BuildSubPackage,xzdiff, +xz +diffutils, lzcmp lzdiff xzcmp))
 $(eval $(call BuildSubPackage,xzgrep, +xz, lzegrep lzfgrep lzgrep xzegrep xzfgrep))
-$(eval $(call BuildSubPackage,xzless, +xz, lzless))
-$(eval $(call BuildSubPackage,xzmore, +xz, lzmore))
+$(eval $(call BuildSubPackage,xzless, +xz +less, lzless))
+$(eval $(call BuildSubPackage,xzmore, +xz +more, lzmore))
