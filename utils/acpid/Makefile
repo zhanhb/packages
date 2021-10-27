@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=acpid
 PKG_VERSION:=2.0.32
-PKG_RELEASE:=3
+PKG_RELEASE:=$(AUTORELEASE)
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=@SF/acpid2
@@ -53,6 +53,10 @@ define Package/acpid/install
 	chmod 0750 $(1)/etc/init.d/acpid
 	$(INSTALL_DIR) $(1)/etc/hotplug.d/input/
 	$(INSTALL_CONF) ./files/acpid.hotplug $(1)/etc/hotplug.d/input/
+endef
+
+define Package/acpid/conffiles
+/etc/acpi/events/default
 endef
 
 define Package/acpid/postinst
