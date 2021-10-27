@@ -44,6 +44,10 @@ define Package/libtirpc/install
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/etc/netconfig $(1)/etc/
 endef
 
+define Package/libtirpc/conffiles
+/etc/netconfig
+endef
+
 define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/include
 	$(INSTALL_DIR) $(1)/usr/lib
