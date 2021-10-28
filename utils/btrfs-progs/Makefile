@@ -90,7 +90,7 @@ define Package/btrfs-progs/install
 	$(foreach prog,$(boxprogs),$(LN) btrfs $(1)/usr/bin/$(prog);)
 	$(foreach prog,$(progs),$(INSTALL_BIN) $(PKG_BUILD_DIR)/$(prog) $(1)/usr/bin/;)
 	$(INSTALL_DIR) $(1)/lib/preinit
-	$(INSTALL_BIN) ./files/btrfs-scan.init $(1)/lib/preinit/85_btrfs_scan
+	$(INSTALL_DATA) ./files/btrfs-scan.init $(1)/lib/preinit/85_btrfs_scan
 endef
 
 $(eval $(call BuildPackage,btrfs-progs))
