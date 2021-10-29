@@ -2,7 +2,6 @@
 # Copyright (C) 2017 Philip Prindeville, Redfish Solutions LLC
 
 START=28
-STOP=
 
 PROG=/usr/sbin/sensors
 
