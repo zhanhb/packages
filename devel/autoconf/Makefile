@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=autoconf
-PKG_VERSION:=2.70
-PKG_RELEASE:=2
+PKG_VERSION:=2.71
+PKG_RELEASE:=$(AUTORELEASE)
 
 PKG_SOURCE_URL:=@GNU/autoconf
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
-PKG_HASH:=fa9e227860d9d845c0a07f63b88c8d7a2ae1aa2345fb619384bb8accc19fecc6
+PKG_HASH:=f14c83cfebcc9427f2c3cea7258bd90df972d92eb26752da4ddad81c87a0faa4
 
 PKG_MAINTAINER:=Heinrich Schuchardt <xypron.glpk@gmx.de>
 PKG_LICENSE:=GPL-3.0-or-later
@@ -37,14 +37,11 @@ define Package/autoconf/description
   automatically configure software source code packages.
 endef
 
-CONFIGURE_VARS += M4=m4 EMACS=no
-
-FIX_PATHS = $(SED) '1c \#!/usr/bin/perl' -e 's| /[^ ]*/bin/perl| /usr/bin/perl|g'
+CONFIGURE_VARS += M4=m4 EMACS=no PERL="/usr/bin/perl"
 
 define Package/autoconf/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/* $(1)/usr/bin/
-	grep -rEl "#\!.*perl" $(1)/usr/bin/ | xargs $(FIX_PATHS)
 	$(INSTALL_DIR) $(1)/usr/share/autoconf
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/share/autoconf/INSTALL \
 	$(1)/usr/share/autoconf/
