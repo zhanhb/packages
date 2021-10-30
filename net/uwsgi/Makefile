@@ -2,7 +2,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=uwsgi
 PKG_VERSION:=2.0.20
-PKG_RELEASE:=1
+PKG_RELEASE:=$(AUTORELEASE)
 
 PYPI_NAME:=uwsgi
 PKG_HASH:=88ab9867d8973d8ae84719cf233b7dafc54326fcaec89683c3f9f77c002cdff9
@@ -158,6 +158,11 @@ define Package/uwsgi-luci-support/install
 	$(INSTALL_DIR) $(1)/etc/uwsgi/vassals
 	$(INSTALL_DATA) ./files-luci-support/luci-webui.ini $(1)/etc/uwsgi/vassals/luci-webui.ini
 	$(INSTALL_DATA) ./files-luci-support/luci-cgi_io.ini $(1)/etc/uwsgi/vassals/luci-cgi_io.ini
+endef
+
+define Package/uwsgi-luci-support/conffiles
+/etc/uwsgi/vassals/luci-cgi_io.ini
+/etc/uwsgi/vassals/luci-webui.ini
 endef
 
 $(eval $(call BuildPackage,uwsgi))
