@@ -79,7 +79,7 @@ define Package/libattr/install
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/*.so* $(1)/usr/lib/
 endef
 
-define Package/attr/conffiles
+define Package/libattr/conffiles
 /etc/xattr.conf
 endef
 
