@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=usbmuxd
 PKG_VERSION:=1.1.1
-PKG_RELEASE:=1
+PKG_RELEASE:=$(AUTORELEASE)
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
 PKG_SOURCE_URL:=https://www.libimobiledevice.org/downloads
@@ -44,7 +44,6 @@ endef
 
 define Package/usbmuxd/conffiles
 /etc/lockdown
-/etc/lockdown/SystemConfiguration.plist
 endef
 
 CONFIGURE_ARGS += --with-systemd
