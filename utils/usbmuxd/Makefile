@@ -8,7 +8,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=usbmuxd
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/libimobiledevice/usbmuxd.git
@@ -46,7 +46,6 @@ endef
 
 define Package/usbmuxd/conffiles
 /etc/lockdown
-/etc/lockdown/SystemConfiguration.plist
 endef
 
 CONFIGURE_ARGS += \
