@@ -3,9 +3,17 @@
 # Copyright (c) 2021 Gregory L. Dietsche <Gregory.Dietsche@cuw.edu>
 # This is free software, licensed under the MIT License
 #
-uci del_list dhcp.@dnsmasq[0].addnhosts=/etc/safe-search/enabled
-uci add_list dhcp.@dnsmasq[0].addnhosts=/etc/safe-search/enabled
-uci commit dhcp
+
+grep -q safe-search-maintenance /etc/crontabs/root 2>/dev/null || {
+	echo "1 1 * * 1 /bin/nice /usr/sbin/safe-search-maintenance>/dev/null 2>&1" >>/etc/crontabs/root
+	/etc/init.d/cron reload
+}
+
+uci -q batch <<-EOF
+	del_list dhcp.@dnsmasq[0].addnhosts=/etc/safe-search/enabled
+	add_list dhcp.@dnsmasq[0].addnhosts=/etc/safe-search/enabled
+	commit dhcp
+EOF
 
 /usr/sbin/safe-search-maintenance
 /usr/sbin/safe-search-update
