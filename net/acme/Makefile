@@ -59,6 +59,8 @@ endef
 
 define Package/acme/prerm
 #!/bin/sh
+[ -n "$$IPKG_INSTROOT" ] && exit 0
+[ "$$PKG_UPGRADE" = 1 ] && exit 0
 sed -i '/\/etc\/init\.d\/acme start/d' /etc/crontabs/root
 endef
 
