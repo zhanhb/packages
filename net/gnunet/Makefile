@@ -365,7 +365,7 @@ CONF_vpn:=exit pt vpn
 define Package/gnunet-gns/prerm
 #!/bin/sh
 
-uci -q batch <<EOF
+[ -n "$$IPKG_INSTROOT" ] || [ "$$PKG_UPGRADE" = 1 ] || uci -q batch <<EOF
 del network.gnunetdns
 del network.gndnsrtt
 del network.gndnsrl
@@ -381,7 +381,7 @@ endef
 define Package/gnunet-vpn/prerm
 #!/bin/sh
 
-uci -q batch <<EOF
+[ -n "$$IPKG_INSTROOT" ] || [ "$$PKG_UPGRADE" = 1 ] || uci -q batch <<EOF
 del network.gnunetvpn
 del network.gnunetexit
 commit network
@@ -395,8 +395,7 @@ endef
 define PostInstFixSUIDPerms
   define Package/$(1)/postinst
 #!/bin/sh
-[ -z "$IPKG_INSTROOT" ] || exit 0
-[ -e /usr/share/gnunet/.permfix ] && rm /usr/share/gnunet/.permfix || exit 0
+[ -n "$$IPKG_INSTROOT" ] || [ "$$PKG_UPGRADE" = 1 ] || rm -f /usr/share/gnunet/.permfix
   endef
 endef
 
