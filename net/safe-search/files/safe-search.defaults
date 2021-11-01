@@ -3,11 +3,13 @@
 # Copyright (c) 2021 Gregory L. Dietsche <Gregory.Dietsche@cuw.edu>
 # This is free software, licensed under the MIT License
 #
-uci del_list dhcp.@dnsmasq[0].addnhosts=/etc/safe-search/enabled
-uci add_list dhcp.@dnsmasq[0].addnhosts=/etc/safe-search/enabled
-uci del_list dhcp.@dnsmasq[0].addn_mount=/etc/safe-search/available
-uci add_list dhcp.@dnsmasq[0].addn_mount=/etc/safe-search/available
-uci commit dhcp
+uci -q batch <<-EOF
+	del_list dhcp.@dnsmasq[0].addnhosts=/etc/safe-search/enabled
+	add_list dhcp.@dnsmasq[0].addnhosts=/etc/safe-search/enabled
+	del_list dhcp.@dnsmasq[0].addn_mount=/etc/safe-search/available
+	add_list dhcp.@dnsmasq[0].addn_mount=/etc/safe-search/available
+	commit dhcp
+EOF
 
 /usr/sbin/safe-search-maintenance
 /usr/sbin/safe-search-update
