@@ -65,22 +65,11 @@ define Package/sudo/install
 		$(1)/usr/{bin,sbin} \
 		$(1)/usr/lib/sudo
 
-	$(CP) $(PKG_INSTALL_DIR)/usr/bin/sudo $(1)/usr/bin/
-	chmod 4755 $(1)/usr/bin/sudo
+	$(INSTALL_SUID) $(PKG_INSTALL_DIR)/usr/bin/sudo $(1)/usr/bin/
 	$(CP) $(PKG_INSTALL_DIR)/usr/sbin/visudo $(1)/usr/sbin/
-	$(CP) $(PKG_INSTALL_DIR)/etc/sudoers $(1)/etc/
-	chmod 0440 $(1)/etc/sudoers
+	install -m0440 $(PKG_INSTALL_DIR)/etc/sudoers $(1)/etc/
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/sudo/*.so* $(1)/usr/lib/sudo/
 	$(INSTALL_BIN) ./files/sudo.init $(1)/etc/init.d/sudo
-endef
-
-define Package/sudo/postinst
-#!/bin/sh
-
-[ -n "$$IPKG_INSTROOT" ] || {
-	/etc/init.d/sudo enable
-	/etc/init.d/sudo start
-}
 endef
 
 $(eval $(call BuildPackage,sudo))
