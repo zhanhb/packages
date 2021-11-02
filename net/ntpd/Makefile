@@ -47,6 +47,7 @@ $(call Package/ntpd/Default)
   DEPENDS+= +ntp-utils
   TITLE+= server
   USERID:=ntp=123:ntp=123
+  ALTERNATIVES:=200:/usr/sbin/ntpd:/usr/libexec/ntpd
 endef
 
 define Package/ntpd/description
@@ -114,26 +115,14 @@ CONFIGURE_ARGS += \
 	--with-openssl-libdir="$(STAGING_DIR)/usr/lib"
 
 define Package/ntpd/install
-	$(INSTALL_DIR) $(1)/sbin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/ntpd/ntpd $(1)/sbin/
+	$(INSTALL_DIR) $(1)/usr/libexec/
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/ntpd/ntpd $(1)/usr/libexec/
 	$(INSTALL_DIR) $(1)/usr/sbin
 	$(INSTALL_BIN) ./files/ntpd.hotplug-helper $(1)/usr/sbin/
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/ntpd.init $(1)/etc/init.d/ntpd
 	$(INSTALL_DIR) $(1)/etc/hotplug.d/iface
 	$(INSTALL_BIN) ./files/ntpd.hotplug $(1)/etc/hotplug.d/iface/20-ntpd
-endef
-
-define Package/ntpd/postinst
-#!/bin/sh
-[ -L "$${IPKG_INSTROOT}/usr/sbin/ntpd" ] && rm -f "$${IPKG_INSTROOT}/usr/sbin/ntpd"
-exit 0
-endef
-
-define Package/ntpd/postrm
-#!/bin/sh
-/bin/busybox ntpd -h 2>&1 | grep -q BusyBox && ln -sf ../../bin/busybox /usr/sbin/ntpd
-exit 0
 endef
 
 define Package/ntpdate/install
