@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=netcat
 PKG_VERSION:=0.7.1
-PKG_RELEASE:=2
+PKG_RELEASE:=3
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
 PKG_SOURCE_URL:=@SF/$(PKG_NAME)
@@ -26,6 +26,7 @@ define Package/netcat
   CATEGORY:=Network
   TITLE:=A feature-rich network debugging and exploration tool.
   URL:=http://netcat.sourceforge.net/
+  ALTERNATIVES:=200:/usr/bin/nc:/usr/bin/netcat
 endef
 
 define Package/netcat/description
@@ -45,22 +46,5 @@ define Package/netcat/install
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/netcat \
 		$(1)/usr/bin
 endef
-
-define Package/netcat/postinst
-#!/bin/sh
-if [ -e $${IPKG_INSTROOT}/usr/bin/nc ]; then
-  rm -rf $${IPKG_INSTROOT}/usr/bin/nc;
-fi
-ln -s ./netcat $${IPKG_INSTROOT}/usr/bin/nc
-endef
-
-define Package/netcat/postrm
-#!/bin/sh
-rm $${IPKG_INSTROOT}/usr/bin/nc
-ln -s ../../bin/busybox $${IPKG_INSTROOT}/usr/bin/nc
-$${IPKG_INSTROOT}/usr/bin/nc 2>&1 | grep 'applet not found' > /dev/null 2>&1 && rm $${IPKG_INSTROOT}/usr/bin/nc
-exit 0
-endef
-
 
 $(eval $(call BuildPackage,netcat))
