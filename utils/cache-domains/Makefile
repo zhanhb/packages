@@ -14,6 +14,7 @@ define Package/cache-domains/default
   TITLE:=Game content cache DNS
   URL:=https://github.com/uklans/cache-domains
   DEPENDS:=+jq +bash +dnsmasq +ca-bundle
+  PKGARCH:=all
 endef
 
 define Package/cache-domains/description/default
