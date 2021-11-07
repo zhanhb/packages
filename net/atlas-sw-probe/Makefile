@@ -8,7 +8,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=atlas-sw-probe
 PKG_VERSION:=5080
-PKG_RELEASE:=2
+PKG_RELEASE:=$(AUTORELEASE)
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/RIPE-NCC/ripe-atlas-software-probe.git
@@ -57,14 +57,12 @@ Build/Install:=:
 
 define Package/atlas-sw-probe-rpc/postinst
 #!/bin/sh
-[ -z "$${IPKG_INSTROOT}" ] && /etc/init.d/rpcd restart
-exit 0
+[ -n "$$IPKG_INSTROOT" ] || /etc/init.d/rpcd reload
 endef
 
 define Package/atlas-sw-probe-rpc/postrm
 #!/bin/sh
-[ -z "$${IPKG_INSTROOT}" ] && /etc/init.d/rpcd restart
-exit 0
+[ -n "$$IPKG_INSTROOT" ] || [ "$$PKG_UPGRADE" = 1 ] || /etc/init.d/rpcd reload
 endef
 
 define Package/atlas-sw-probe/conffiles
