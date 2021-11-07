@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=tor-hs
 PKG_VERSION:=0.0.1
-PKG_RELEASE:=3
+PKG_RELEASE:=$(AUTORELEASE)
 
 PKG_MAINTAINER:=Jan Pavlinec <jan.pavlinec1@gmail.com>
 PKG_LICENSE:=GPL-3.0-or-later
@@ -40,14 +40,12 @@ endef
 
 define Package/tor-hs/postinst
 #!/bin/sh
-[ -z "$${IPKG_INSTROOT}" ] && /etc/init.d/rpcd restart
-exit 0
+[ -n "$$IPKG_INSTROOT" ] || /etc/init.d/rpcd reload
 endef
 
 define Package/tor-hs/postrm
 #!/bin/sh
-[ -z "$${IPKG_INSTROOT}" ] && /etc/init.d/rpcd restart
-exit 0
+[ -n "$$IPKG_INSTROOT" ] || [ "$$PKG_UPGRADE" = 1 ] || /etc/init.d/rpcd reload
 endef
 
 define Package/tor-hs/install
