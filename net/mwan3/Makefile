@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=mwan3
 PKG_VERSION:=2.10.13
-PKG_RELEASE:=1
+PKG_RELEASE:=$(AUTORELEASE)
 PKG_MAINTAINER:=Florian Eckert <fe@dev.tdt.de>, \
 		Aaron Goodman <aaronjg@alumni.stanford.edu>
 PKG_LICENSE:=GPL-2.0
@@ -46,18 +46,12 @@ endef
 
 define Package/mwan3/postinst
 #!/bin/sh
-if [ -z "$${IPKG_INSTROOT}" ] && [ -x /etc/init.d/rpcd ]; then
-	/etc/init.d/rpcd restart
-fi
-exit 0
+[ -n "$$IPKG_INSTROOT" ] || [ ! -x /etc/init.d/rpcd ] || /etc/init.d/rpcd reload
 endef
 
 define Package/mwan3/postrm
 #!/bin/sh
-if [ -z "$${IPKG_INSTROOT}" ] && [ -x /etc/init.d/rpcd ]; then
-	/etc/init.d/rpcd restart
-fi
-exit 0
+[ -n "$$IPKG_INSTROOT" ] || [ "$$PKG_UPGRADE" = 1 ] || [ ! -x /etc/init.d/rpcd ] || /etc/init.d/rpcd reload
 endef
 
 define Build/Compile
