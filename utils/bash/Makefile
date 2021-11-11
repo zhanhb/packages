@@ -42,7 +42,6 @@ endef
 
 define Package/bash/conffiles
 /etc/bash.bashrc
-/etc/bash.bash_logout
 /etc/profile.d/sys_bashrc.sh
 endef
 
