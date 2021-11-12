@@ -7,7 +7,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=subversion
 PKG_VERSION:=1.14.1
-PKG_RELEASE:=1
+PKG_RELEASE:=$(AUTORELEASE)
 
 PKG_SOURCE_URL:=@APACHE/subversion
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
@@ -111,12 +111,6 @@ define Package/subversion-server/install
 	$(INSTALL_CONF) ./files/subversion.config $(1)/etc/config/subversion
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/subversion.init $(1)/etc/init.d/subversion
-endef
-
-define Package/subversion-server/prerm
-#!/bin/sh
- ps | grep '\(/svnserve$\| svnserve\)' | grep -cvq grep >/dev/null && /etc/init.d/subversion stop
- /etc/init.d/subversion disable
 endef
 
 $(eval $(call BuildPackage,subversion-libs))
