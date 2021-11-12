@@ -265,9 +265,7 @@ endef
 
 define Package/zabbix-extra-network/postinst
 #!/bin/sh
-if [ -z "$${IPKG_INSTROOT}" ]; then
-	killall -s HUP ubusd
-fi
+[ -n "$${IPKG_INSTROOT}" ] || killall -s HUP ubusd
 endef
 
 define Package/zabbix-extra-wifi/install
@@ -278,9 +276,7 @@ endef
 
 define Package/zabbix-extra-wifi/postinst
 #!/bin/sh
-if [ -z "$${IPKG_INSTROOT}" ]; then
-	killall -s HUP ubusd
-fi
+[ -n "$${IPKG_INSTROOT}" ] || killall -s HUP ubusd
 endef
 
 define Package/zabbix-sender/install
