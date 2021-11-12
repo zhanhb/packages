@@ -7,7 +7,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=bcp38
 PKG_VERSION:=5
-PKG_RELEASE:=6
+PKG_RELEASE:=7
 PKG_LICENCE:=GPL-3.0-or-later
 
 include $(INCLUDE_DIR)/package.mk
@@ -55,15 +55,12 @@ define Package/bcp38/install
 	$(INSTALL_BIN) ./files/bcp38.init $(1)/etc/init.d/bcp38
 endef
 
-define Package/bcp38/postinst
-#!/bin/sh
-[ -x /etc/uci-defaults/bcp38 ] && /etc/uci-defaults/bcp38 || exit 0
-endef
-
 define Package/bcp38/postrm
 #!/bin/sh
-uci delete firewall.bcp38
-uci commit
+[ -n "$$IPKG_INSTROOT" ] || [ "$$PKG_UPGRADE" = 1 ] || uci -q batch <<EOF
+	delete firewall.bcp38
+	commit firewall
+EOF
 endef
 
 $(eval $(call BuildPackage,bcp38))
