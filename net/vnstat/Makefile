@@ -100,11 +100,5 @@ define Package/vnstati/install
 	$(CP) $(PKG_INSTALL_DIR)/usr/bin/vnstati $(1)/usr/bin/
 endef
 
-define Package/vnstat/postinst
-#!/bin/sh
-[ -n "$${IPKG_INSTROOT}" ] || (. /etc/uci-defaults/vnstat) && rm -f /etc/uci-defaults/vnstat
-exit 0
-endef
-
 $(eval $(call BuildPackage,vnstat))
 $(eval $(call BuildPackage,vnstati))
