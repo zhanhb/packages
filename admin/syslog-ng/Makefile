@@ -100,22 +100,4 @@ define Package/syslog-ng/install
 	$(CP) -r ./files/scl $(1)/usr/share/syslog-ng/include/
 endef
 
-define Package/syslog-ng/postinst
-#!/bin/sh
-
-[ -n "$$IPKG_INSTROOT" ] || {
-/etc/init.d/syslog-ng enable
-/etc/init.d/syslog-ng restart
-}
-endef
-
-define Package/syslog-ng/prerm
-#!/bin/sh
-
-[ -n "$$IPKG_INSTROOT" ] || {
-/etc/init.d/syslog-ng disable
-/etc/init.d/syslog-ng stop
-}
-endef
-
 $(eval $(call BuildPackage,syslog-ng))

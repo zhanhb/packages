@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=vnstat
 PKG_VERSION:=1.18
-PKG_RELEASE:=2
+PKG_RELEASE:=$(AUTORELEASE)
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=http://humdi.net/vnstat
@@ -98,12 +98,6 @@ endef
 define Package/vnstati/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(CP) $(PKG_INSTALL_DIR)/usr/bin/vnstati $(1)/usr/bin/
-endef
-
-define Package/vnstat/postinst
-#!/bin/sh
-[ -n "$${IPKG_INSTROOT}" ] || (. /etc/uci-defaults/vnstat) && rm -f /etc/uci-defaults/vnstat
-exit 0
 endef
 
 $(eval $(call BuildPackage,vnstat))

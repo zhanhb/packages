@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=u2pnpd
 PKG_VERSION:=0.5
-PKG_RELEASE:=3
+PKG_RELEASE:=$(AUTORELEASE)
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=https://github.com/mhei/u2pnpd/releases/download/v$(PKG_VERSION)
@@ -56,12 +56,6 @@ define Package/u2pnpd/install
 
 	$(INSTALL_DIR) $(1)/etc/config
 	$(INSTALL_CONF) ./files/u2pnpd.config $(1)/etc/config/u2pnpd
-endef
-
-define Package/u2pnpd/postinst
-#!/bin/sh
-[ -n "$${IPKG_INSTROOT}" ] || (. /etc/uci-defaults/u2pnpd) && rm -f /etc/uci-defaults/u2pnpd
-exit 0
 endef
 
 $(eval $(call BuildPackage,u2pnpd))

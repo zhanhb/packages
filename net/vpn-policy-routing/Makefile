@@ -5,7 +5,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=vpn-policy-routing
 PKG_VERSION:=0.3.4
-PKG_RELEASE:=8
+PKG_RELEASE:=9
 PKG_LICENSE:=GPL-3.0-or-later
 PKG_MAINTAINER:=Stan Grishin <stangri@melmac.net>
 
@@ -43,26 +43,6 @@ define Package/vpn-policy-routing/install
 	$(INSTALL_DATA) ./files/vpn-policy-routing.firewall.hotplug $(1)/etc/hotplug.d/firewall/70-vpn-policy-routing
 	$(INSTALL_DATA) ./files/vpn-policy-routing.aws.user $(1)/etc/vpn-policy-routing.aws.user
 	$(INSTALL_DATA) ./files/vpn-policy-routing.netflix.user $(1)/etc/vpn-policy-routing.netflix.user
-endef
-
-define Package/vpn-policy-routing/postinst
-	#!/bin/sh
-	# check if we are on real system
-	if [ -z "$${IPKG_INSTROOT}" ]; then
-		/etc/init.d/vpn-policy-routing enable
-	fi
-	exit 0
-endef
-
-define Package/vpn-policy-routing/prerm
-	#!/bin/sh
-	# check if we are on real system
-	if [ -z "$${IPKG_INSTROOT}" ]; then
-		echo "Stopping service and removing rc.d symlink for vpn-policy-routing"
-		/etc/init.d/vpn-policy-routing stop || true
-		/etc/init.d/vpn-policy-routing disable || true
-	fi
-	exit 0
 endef
 
 $(eval $(call BuildPackage,vpn-policy-routing))

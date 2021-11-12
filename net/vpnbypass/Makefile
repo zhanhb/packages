@@ -5,7 +5,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=vpnbypass
 PKG_VERSION:=1.3.2
-PKG_RELEASE:=1
+PKG_RELEASE:=$(AUTORELEASE)
 PKG_LICENSE:=GPL-3.0-or-later
 PKG_MAINTAINER:=Stan Grishin <stangri@melmac.net>
 
@@ -44,26 +44,6 @@ define Package/vpnbypass/install
 	$(SED) "s|^\(PKG_VERSION\).*|\1='$(PKG_VERSION)-$(PKG_RELEASE)'|" $(1)/etc/init.d/vpnbypass
 	$(INSTALL_CONF) ./files/vpnbypass.config $(1)/etc/config/vpnbypass
 	$(INSTALL_DATA) ./files/vpnbypass.hotplug $(1)/etc/hotplug.d/firewall/94-vpnbypass
-endef
-
-define Package/vpnbypass/postinst
-	#!/bin/sh
-	# check if we are on real system
-	if [ -z "$${IPKG_INSTROOT}" ]; then
-		/etc/init.d/vpnbypass enable
-	fi
-	exit 0
-endef
-
-define Package/vpnbypass/prerm
-	#!/bin/sh
-	# check if we are on real system
-	if [ -z "$${IPKG_INSTROOT}" ]; then
-		echo "Stopping service and removing rc.d symlink for vpnbypass"
-		/etc/init.d/vpnbypass stop || true
-		/etc/init.d/vpnbypass disable || true
-	fi
-	exit 0
 endef
 
 $(eval $(call BuildPackage,vpnbypass))
