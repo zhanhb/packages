@@ -6,7 +6,7 @@
 
 HasIpAddressChanged() {
   # Create a sorted, unique list of addresses using DNS
-  HOST_LIVE=$(nslookup "$1" | grep "Address\ [0-9]\+:" | sed -r 's/^Address [0-9]+: //' | sort | uniq -i)
+  HOST_LIVE="$(resolveip "$1" | sort -f | uniq -i)"
 
   # Create a sorted, unique list of addresess currently in use
   HOST_SAFE=$(grep -i "^[:0-9a-f]" "$2" | sed 's/ .*//' | sort | uniq -i)
