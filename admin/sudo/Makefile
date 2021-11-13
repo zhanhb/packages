@@ -52,7 +52,7 @@ CONFIGURE_ARGS += \
 	--without-lecture \
 	--disable-zlib \
 	--disable-openssl \
-	--with-rundir=/var/lib/sudo \
+	--with-rundir=/var/run/sudo \
 	--with-vardir=/var/lib/sudo
 
 CONFIGURE_VARS += \
