@@ -17,6 +17,7 @@ define Package/safe-search
 	SECTION:=net
 	CATEGORY:=Network
 	TITLE:=Safe Search
+	DEPENDS:=+resolveip
 	PKGARCH:=all
 endef
 
