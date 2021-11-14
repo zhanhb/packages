@@ -1,0 +1,67 @@
+#!/bin/sh /etc/rc.common
+#
+# Copyright (c) 2021 Huangbin Zhan <zhanhb88@gmail.com>
+# This is free software, licensed under the MIT License
+#
+START=65
+
+DOMAINS_D=/etc/safe-search/domains
+PROVIDER_D=/etc/safe-search/provider
+RUN_D=/var/run/safe-search/hosts
+
+gen_dnsmasq_cname() {
+	local name="$1" target="$2" domain
+	while read -r domain; do
+		echo "cname=$domain,$target,300"
+	done <"$DOMAINS_D/$name"
+}
+
+generate() {
+	local name="$1" enabled mode
+	config_get_bool enabled "$name" enabled 0
+	config_get mode "$name" mode default
+
+	local src="$PROVIDER_D/$name.$mode"
+
+	if [ -f "$src" ]; then
+		local dst="$RUN_D/$name"
+		if [ "$enabled" -eq 1 ]; then
+			gen_dnsmasq_cname "$name" "$(cat "$src")" >"$dst"
+			append enables "$name"
+		fi
+	else
+		echo "Error: $src does not exist." >&2
+		echo "Please check your configuration in /etc/config/safe-search" >&2
+	fi
+}
+
+start() {
+	mkdir -p "$RUN_D"
+	config_load safe-search
+
+	local file enables=
+	config_foreach generate safe-search
+
+	for file in "$RUN_D"/*; do
+		[ -f "$file" ] || continue
+		local name="${file##*/}"
+		if [ -f "$DOMAINS_D/$name" ] && ! list_contains enables "$name"; then
+			rm -f "$file"
+		fi
+	done
+
+	uci del_list dhcp.@dnsmasq[0].confdir="$RUN_D"
+	uci add_list dhcp.@dnsmasq[0].confdir="$RUN_D"
+	uci commit dhcp
+	/etc/init.d/dnsmasq restart
+}
+
+stop() {
+	uci del_list dhcp.@dnsmasq[0].confdir="$RUN_D"
+	uci commit dhcp
+	/etc/init.d/dnsmasq restart
+}
+
+restart() {
+	start "$@"
+}

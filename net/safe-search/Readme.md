@@ -7,7 +7,7 @@ businesses and families. The default filtering rules do not interfere with
 normal web browsing.
 
 Enabled and disable Safe Search by editing /etc/config/safe-search . To make
-your changes active, run safe-search-update.
+your changes active, run /etc/init.d/safe-search restart.
 
 Currently Supported:
 - Enabled By Default
