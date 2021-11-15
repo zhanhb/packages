@@ -229,6 +229,7 @@ define Package/bind-server/conffiles
 /etc/bind/db.0
 /etc/bind/db.127
 /etc/bind/db.255
+/etc/bind/db.empty
 /etc/bind/db.local
 /etc/bind/db.root
 /etc/bind/named.conf
