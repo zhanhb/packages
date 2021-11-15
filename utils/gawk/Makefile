@@ -6,7 +6,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=gawk
 PKG_VERSION:=5.2.1
-PKG_RELEASE:=2
+PKG_RELEASE:=3
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=@GNU/gawk
@@ -27,6 +27,7 @@ define Package/gawk
   URL:=https://www.gnu.org/software/gawk/
   TITLE:=GNU awk
   DEPENDS:=+libncursesw +libreadline
+  ALTERNATIVES:=200:/usr/bin/awk:gawk
 endef
 
 CONFIGURE_ARGS+= --disable-mpfr
