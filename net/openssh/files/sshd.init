@@ -13,6 +13,7 @@ start_service() {
 		# check for keys
 		key=/etc/ssh/ssh_host_${type}_key
 		[ -f $key ] && {
+			chmod 0600 "$key"
 			[ -x /usr/bin/ssh-keygen ] && {
 				if ! /usr/bin/ssh-keygen -y -f $key > /dev/null 2>&1; then
 					rm -f $key
