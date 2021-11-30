@@ -407,24 +407,6 @@ define Package/ddns-scripts/install
 		$(1)/etc/uci-defaults/
 endef
 
-define Package/ddns-scripts/postinst
-#!/bin/sh
-if [ -z "$${IPKG_INSTROOT}" ]; then
-	/etc/init.d/ddns enabled
-	/etc/init.d/ddns start
-fi
-exit 0
-endef
-
-define Package/ddns-scripts/prerm
-#!/bin/sh
-if [ -n "$${IPKG_INSTROOT}" ]; then
-	/etc/init.d/ddns stop
-	/etc/init.d/ddns disable
-fi
-exit 0
-endef
-
 
 define Package/ddns-scripts-services/install
 	$(INSTALL_DIR) $(1)/usr/share/ddns/default
@@ -495,11 +477,9 @@ define Package/ddns-scripts-cloudflare/install
 		$(1)/usr/share/ddns/default/
 endef
 
-define Package/ddns-scripts-cloudflare/prerm
+define Package/ddns-scripts-cloudflare/postrm
 #!/bin/sh
-if [ -z "$${IPKG_INSTROOT}" ]; then
-	/etc/init.d/ddns stop
-fi
+[ -n "$$IPKG_INSTROOT" ] || [ "$$PKG_UPGRADE" = 1 ] || /etc/init.d/ddns stop
 exit 0
 endef
 
@@ -533,11 +513,9 @@ define Package/ddns-scripts-freedns/install
 		$(1)/usr/share/ddns/default
 endef
 
-define Package/ddns-scripts-freedns/prerm
+define Package/ddns-scripts-freedns/postrm
 #!/bin/sh
-if [ -z "$${IPKG_INSTROOT}" ]; then
-	/etc/init.d/ddns stop
-fi
+[ -n "$$IPKG_INSTROOT" ] || [ "$$PKG_UPGRADE" = 1 ] || /etc/init.d/ddns stop
 exit 0
 endef
 
@@ -552,11 +530,9 @@ define Package/ddns-scripts-godaddy/install
 		$(1)/usr/share/ddns/default
 endef
 
-define Package/ddns-scripts-godaddy/prerm
+define Package/ddns-scripts-godaddy/postrm
 #!/bin/sh
-if [ -z "$${IPKG_INSTROOT}" ]; then
-	/etc/init.d/ddns stop
-fi
+[ -n "$$IPKG_INSTROOT" ] || [ "$$PKG_UPGRADE" = 1 ] || /etc/init.d/ddns stop
 exit 0
 endef
 
@@ -571,11 +547,9 @@ define Package/ddns-scripts-digitalocean/install
 		$(1)/usr/share/ddns/default
 endef
 
-define Package/ddns-scripts-digitalocean/prerm
+define Package/ddns-scripts-digitalocean/postrm
 #!/bin/sh
-if [ -z "$${IPKG_INSTROOT}" ]; then
-	/etc/init.d/ddns stop
-fi
+[ -n "$$IPKG_INSTROOT" ] || [ "$$PKG_UPGRADE" = 1 ] || /etc/init.d/ddns stop
 exit 0
 endef
 
@@ -607,11 +581,9 @@ define Package/ddns-scripts-dnspod/install
 		$(1)/usr/share/ddns/default/
 endef
 
-define Package/ddns-scripts-dnspod/prerm
+define Package/ddns-scripts-dnspod/postrm
 #!/bin/sh
-if [ -z "$${IPKG_INSTROOT}" ]; then
-	/etc/init.d/ddns stop
-fi
+[ -n "$$IPKG_INSTROOT" ] || [ "$$PKG_UPGRADE" = 1 ] || /etc/init.d/ddns stop
 exit 0
 endef
 
@@ -645,11 +617,9 @@ define Package/ddns-scripts-noip/install
 		$(1)/usr/share/ddns/default
 endef
 
-define Package/ddns-scripts-noip/prerm
+define Package/ddns-scripts-noip/postrm
 #!/bin/sh
-if [ -z "$${IPKG_INSTROOT}" ]; then
-	/etc/init.d/ddns stop
-fi
+[ -n "$$IPKG_INSTROOT" ] || [ "$$PKG_UPGRADE" = 1 ] || /etc/init.d/ddns stop
 exit 0
 endef
 
@@ -664,11 +634,9 @@ define Package/ddns-scripts-ns1/install
 		$(1)/usr/share/ddns/default
 endef
 
-define Package/ddns-scripts-ns1/prerm
+define Package/ddns-scripts-ns1/postrm
 #!/bin/sh
-if [ -z "$${IPKG_INSTROOT}" ]; then
-	/etc/init.d/ddns stop
-fi
+[ -n "$$IPKG_INSTROOT" ] || [ "$$PKG_UPGRADE" = 1 ] || /etc/init.d/ddns stop
 exit 0
 endef
 
@@ -683,11 +651,9 @@ define Package/ddns-scripts-nsupdate/install
 		$(1)/usr/share/ddns/default
 endef
 
-define Package/ddns-scripts-nsupdate/prerm
+define Package/ddns-scripts-nsupdate/postrm
 #!/bin/sh
-if [ -z "$${IPKG_INSTROOT}" ]; then
-	/etc/init.d/ddns stop
-fi
+[ -n "$$IPKG_INSTROOT" ] || [ "$$PKG_UPGRADE" = 1 ] || /etc/init.d/ddns stop
 exit 0
 endef
 
@@ -702,11 +668,9 @@ define Package/ddns-scripts-route53/install
 		$(1)/usr/share/ddns/default
 endef
 
-define Package/ddns-scripts-route53/prerm
+define Package/ddns-scripts-route53/postrm
 #!/bin/sh
-if [ -z "$${IPKG_INSTROOT}" ]; then
-	/etc/init.d/ddns stop
-fi
+[ -n "$$IPKG_INSTROOT" ] || [ "$$PKG_UPGRADE" = 1 ] || /etc/init.d/ddns stop
 exit 0
 endef
 
@@ -721,11 +685,9 @@ define Package/ddns-scripts-cnkuai/install
 		$(1)/usr/share/ddns/default
 endef
 
-define Package/ddns-scripts-cnkuai/prerm
+define Package/ddns-scripts-cnkuai/postrm
 #!/bin/sh
-if [ -z "$${IPKG_INSTROOT}" ]; then
-	/etc/init.d/ddns stop
-fi
+[ -n "$$IPKG_INSTROOT" ] || [ "$$PKG_UPGRADE" = 1 ] || /etc/init.d/ddns stop
 exit 0
 endef
 
@@ -740,11 +702,9 @@ define Package/ddns-scripts-gandi/install
 		$(1)/usr/share/ddns/default
 endef
 
-define Package/ddns-scripts-gandi/prerm
+define Package/ddns-scripts-gandi/postrm
 #!/bin/sh
-if [ -z "$${IPKG_INSTROOT}" ]; then
-	/etc/init.d/ddns stop
-fi
+[ -n "$$IPKG_INSTROOT" ] || [ "$$PKG_UPGRADE" = 1 ] || /etc/init.d/ddns stop
 exit 0
 endef
 
@@ -759,11 +719,9 @@ define Package/ddns-scripts-pdns/install
 		$(1)/usr/share/ddns/default
 endef
 
-define Package/ddns-scripts-pdns/prerm
+define Package/ddns-scripts-pdns/postrm
 #!/bin/sh
-if [ -z "$${IPKG_INSTROOT}" ]; then
-	/etc/init.d/ddns stop
-fi
+[ -n "$$IPKG_INSTROOT" ] || [ "$$PKG_UPGRADE" = 1 ] || /etc/init.d/ddns stop
 exit 0
 endef
 
@@ -797,11 +755,9 @@ define Package/ddns-scripts-transip/install
 		$(1)/usr/share/ddns/default
 endef
 
-define Package/ddns-scripts-transip/prerm
+define Package/ddns-scripts-transip/postrm
 #!/bin/sh
-if [ -z "$${IPKG_INSTROOT}" ]; then
-	/etc/init.d/ddns stop
-fi
+[ -n "$$IPKG_INSTROOT" ] || [ "$$PKG_UPGRADE" = 1 ] || /etc/init.d/ddns stop
 exit 0
 endef
 
@@ -816,11 +772,9 @@ define Package/ddns-scripts-one/install
 		$(1)/usr/share/ddns/default
 endef
 
-define Package/ddns-scripts-one/prerm
+define Package/ddns-scripts-one/postrm
 #!/bin/sh
-if [-z "${IPKG_INSTROOT}" ]; then
-	/etc/init.d/ddns stop
-fi
+[ -n "$$IPKG_INSTROOT" ] || [ "$$PKG_UPGRADE" = 1 ] || /etc/init.d/ddns stop
 exit 0
 endef
 
