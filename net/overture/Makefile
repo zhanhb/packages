@@ -37,7 +37,13 @@ define Package/overture/description
 endef
 
 define Package/overture/conffiles
-/etc/overture/
+/etc/overture/config.yml
+/etc/overture/domain_alternative_sample
+/etc/overture/domain_primary_sample
+/etc/overture/domain_ttl_sample
+/etc/overture/hosts_sample
+/etc/overture/ip_network_alternative_sample
+/etc/overture/ip_network_primary_sample
 endef
 
 define Package/overture/install
