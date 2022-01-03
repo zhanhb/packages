@@ -81,12 +81,13 @@ define Package/curl/Default
   CATEGORY:=Network
   URL:=https://curl.se/
   MAINTAINER:=Aleksey Vasilenko <aleksey.vasilenko@gmail.com>
+  DEPENDS:= +LIBCURL_WOLFSSL:libwolfssl +LIBCURL_OPENSSL:libopenssl +LIBCURL_GNUTLS:libgnutls +LIBCURL_MBEDTLS:libmbedtls
 endef
 
 define Package/curl
   $(call Package/curl/Default)
   SUBMENU:=File Transfer
-  DEPENDS:=+libcurl
+  DEPENDS+=+libcurl
   TITLE:=A client-side URL transfer utility
 endef
 
@@ -94,7 +95,6 @@ define Package/libcurl
   $(call Package/curl/Default)
   SECTION:=libs
   CATEGORY:=Libraries
-  DEPENDS:= +LIBCURL_WOLFSSL:libwolfssl +LIBCURL_OPENSSL:libopenssl +LIBCURL_GNUTLS:libgnutls +LIBCURL_MBEDTLS:libmbedtls
   DEPENDS += +LIBCURL_ZLIB:zlib +LIBCURL_ZSTD:libzstd +LIBCURL_THREADED_RESOLVER:libpthread +LIBCURL_LDAP:libopenldap
   DEPENDS += +LIBCURL_LIBIDN2:libidn2 +LIBCURL_SSH2:libssh2 +LIBCURL_HTTP2:libnghttp2 +LIBCURL_HTTP3:libnghttp3 +LIBCURL_HTTP3:libngtcp2 +ca-bundle
   TITLE:=A client-side URL transfer library
