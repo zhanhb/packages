@@ -10,12 +10,11 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=iputils
 PKG_VERSION:=20211215
-PKG_RELEASE:=1
+PKG_RELEASE:=$(AUTORELEASE)
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/iputils/iputils/tar.gz/$(PKG_VERSION)?
 PKG_HASH:=b6f67fc705490673ff4471d006221b4a2f1b1180b929d9fefd771352621ccedf
-PKG_BUILD_DIR:=$(BUILD_DIR)/iputils-$(PKG_VERSION)
 
 PKG_MAINTAINER:=Noah Meyerhans <frodo@morgul.net>
 PKG_LICENSE:=BSD-3-Clause
