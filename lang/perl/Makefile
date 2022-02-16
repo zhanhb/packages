@@ -78,6 +78,11 @@ define Package/perl/config
 endef
 
 # Static host perl
+define Host/Patch
+	chmod -R u+w $(HOST_BUILD_DIR)
+	$(Host/Patch/Default)
+endef
+
 define Host/Configure
 	( cd $(HOST_BUILD_DIR); ./Configure -der -Uusedl -Duserelocatableinc -Dprefix=$(HOST_PERL_PREFIX) $(if $(CONFIG_PERL_THREADS),-Dusethreads,))
 endef
@@ -94,6 +99,11 @@ define Host/Install
 endef
 
 # Target perl
+define Build/Patch
+	chmod -R u+w $(PKG_BUILD_DIR)
+	$(Build/Patch/Default)
+endef
+
 define Build/Configure
 	$(PERL_CMD) files/perlconfig.pl -Dowrt:target_cc='$(TARGET_CC)' \
 	                                -Dowrt:gccversion=$(CONFIG_GCC_VERSION) \
