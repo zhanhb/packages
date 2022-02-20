@@ -47,11 +47,14 @@ define Package/chinadns/conffiles
 /etc/chinadns_chnroute.txt
 endef
 
-define merge_chnroute
-	cidr-merger -eo '$(PKG_BUILD_DIR)/chnroute.txt' '$(PKG_BUILD_DIR)/chnroute.txt'
+define download_chnroute
+	url="https://ftp.apnic.net/stats/apnic/`TZ=UTC date +%Y`/delegated-apnic-`TZ=UTC+24 date +%Y%m%d`.gz"; \
+	if command -v curl >/dev/null; then curl -sSL "$$$$url"; else wget -qO- "$$$$url"; fi | \
+		gzip -d | awk -F\| '!/^\s*(#.*)?$$$$/&&/CN\|ipv4/{print $$$$4 "/" 32-log($$$$5)/log(2)}' | \
+		cidr-merger -eo '$(PKG_BUILD_DIR)/chnroute.txt'
 endef
 
-Hooks/Configure/Post+=merge_chnroute
+Hooks/Compile/Post+=download_chnroute
 
 define Package/chinadns/install
 	$(INSTALL_DIR) $(1)/etc/config
