@@ -24,6 +24,7 @@ PKG_LICENSE_FILES:=LICENSE
 PKG_MAINTAINER:=Jian Chang <aa65535@live.com>
 
 PKG_INSTALL:=1
+PKG_BUILD_DEPENDS:=cidr-merger/host
 PKG_FIXUP:=autoreconf
 PKG_USE_MIPS16:=0
 PKG_BUILD_PARALLEL:=1
@@ -45,6 +46,12 @@ define Package/chinadns/conffiles
 /etc/config/chinadns
 /etc/chinadns_chnroute.txt
 endef
+
+define merge_chnroute
+	cidr-merger -eo '$(PKG_BUILD_DIR)/chnroute.txt' '$(PKG_BUILD_DIR)/chnroute.txt'
+endef
+
+Hooks/Configure/Post+=merge_chnroute
 
 define Package/chinadns/install
 	$(INSTALL_DIR) $(1)/etc/config
