@@ -59,12 +59,11 @@ define Package/tinc/install
 	$(INSTALL_DIR) $(1)/etc/config
 	$(INSTALL_CONF) files/$(PKG_NAME).config $(1)/etc/config/$(PKG_NAME)
 	$(INSTALL_DIR) $(1)/etc/tinc
-	$(INSTALL_DIR) $(1)/lib/upgrade/keep.d
-	$(INSTALL_DATA) files/tinc.upgrade $(1)/lib/upgrade/keep.d/tinc
 endef
 
 define Package/tinc/conffiles
 /etc/config/tinc
+/etc/tinc/
 endef
 
 $(eval $(call BuildPackage,tinc))
