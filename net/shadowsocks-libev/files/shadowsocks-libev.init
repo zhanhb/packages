@@ -1,4 +1,5 @@
 #!/bin/sh /etc/rc.common
+# shellcheck disable=SC2034,SC3043,SC3060
 #
 # Copyright (C) 2017-2019 Yousong Zhou <yszhou4tech@gmail.com>
 #
@@ -12,10 +13,10 @@ START=99
 ss_confdir=/var/etc/shadowsocks-libev
 ss_bindir=/usr/bin
 
-ssrules_uc="/usr/share/ss-rules/ss-rules.uc"
-ssrules_nft="/etc/nftables.d/90-ss-rules.nft"
+ssrules_uc=/usr/share/ss-rules/ss-rules.uc
+ssrules_nft=/etc/nftables.d/90-ss-rules.nft
 
-ss_mkjson_server_conf() {
+ss_mkjson_client_conf() {
 	local cfgserver
 
 	config_get cfgserver "$cfg" server
@@ -23,10 +24,10 @@ ss_mkjson_server_conf() {
 	eval "$(validate_server_section "$cfg" ss_validate_mklocal)"
 	validate_server_section "$cfgserver" || return 1
 	[ "$disabled" = 0 ] || return 1
-	ss_mkjson_server_conf_ "$cfgserver"
+	ss_mkjson_ss_server_conf "$cfgserver"
 }
 
-ss_mkjson_server_conf_() {
+ss_mkjson_ss_server_conf() {
 	[ -n "$server_port" ] || return 1
 	[ -z "$server" ] || json_add_string server "$server"
 	json_add_int server_port "$server_port"
@@ -37,27 +38,16 @@ ss_mkjson_server_conf_() {
 	[ -z "$plugin_opts" ] || json_add_string plugin_opts "$plugin_opts"
 }
 
-ss_mkjson_ss_local_conf() {
-	ss_mkjson_server_conf
-}
-
-ss_mkjson_ss_redir_conf() {
-	ss_mkjson_server_conf
-}
-
-ss_mkjson_ss_server_conf() {
-	ss_mkjson_server_conf_
-}
-
 ss_mkjson_ss_tunnel_conf() {
-	ss_mkjson_server_conf || return 1
+	ss_mkjson_client_conf || return 1
 	[ -n "$tunnel_address" ] || return 1
 	json_add_string tunnel_address "$tunnel_address"
 }
 
-ss_xxx() {
+ss_xxx() { # <cfg> <cfgtype> <by>
 	local cfg="$1"
 	local cfgtype="$2"
+	local by="$3"
 	local bin="$ss_bindir/${cfgtype/_/-}"
 	local confjson="$ss_confdir/$cfgtype.$cfg.json"
 
@@ -67,7 +57,17 @@ ss_xxx() {
 	[ "$disabled" = 0 ] || return
 
 	json_init
-	ss_mkjson_${cfgtype}_conf || return
+	case "$cfgtype" in
+		ss_local | ss_redir) ss_mkjson_client_conf;;
+		ss_server) ss_mkjson_ss_server_conf;;
+		ss_tunnel) ss_mkjson_ss_tunnel_conf;;
+		*) return;;
+	esac || return
+	[ "$by" = refresh ] || start_instance
+	ss_rules_cb
+}
+
+start_instance() {
 	json_add_boolean use_syslog 1
 	json_add_boolean ipv6_first "$ipv6_first"
 	json_add_boolean fast_open "$fast_open"
@@ -93,7 +93,6 @@ ss_xxx() {
 	procd_set_param file "$confjson"
 	procd_set_param respawn
 	procd_close_instance
-	ss_rules_cb
 }
 
 ss_rules_cb() {
@@ -301,3 +300,16 @@ validate_ss_tunnel_section() {
 		"$2" \
 		'tunnel_address:regex(".+\:[0-9]+")'
 }
+
+refresh() {
+	config_load shadowsocks-libev
+	config_foreach ss_xxx ss_redir ss_redir refresh
+	ss_rules
+}
+
+if type extra_command >/dev/null 2>&1; then
+	extra_command refresh "Refresh iptables rules"
+else
+	EXTRA_COMMANDS="refresh"
+	EXTRA_HELP="	refresh	Refresh iptables rules"
+fi
