@@ -92,6 +92,9 @@ ifeq ($(BUILD_VARIANT),nossl)
 	CONFIGURE_ARGS+= \
 		--disable-ntlm \
 		--without-ssl
+
+	CONFIGURE_VARS += \
+		ac_cv_lib_ssl32_SSL_connect=yes
 endif
 
 define Package/wget-ssl/install
