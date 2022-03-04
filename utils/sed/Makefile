@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=sed
 PKG_VERSION:=4.8
-PKG_RELEASE:=3
+PKG_RELEASE:=$(AUTORELEASE)
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=@GNU/sed
@@ -29,7 +29,6 @@ define Package/sed
   SECTION:=utils
   CATEGORY:=Utilities
   TITLE:=sed stream editor utility - full version
-  DEPENDS:=+libpcre
   URL:=https://www.gnu.org/software/sed/
   ALTERNATIVES:=300:/bin/sed:/usr/libexec/sed-gnu
 endef
