@@ -26,10 +26,6 @@ define Package/rpcd-mod-lxc
   MAINTAINER:=Luka Perkov <luka@openwrt.org>
 endef
 
-define Build/Prepare
-	$(CP) ./files/* $(PKG_BUILD_DIR)/
-endef
-
 define Package/rpcd-mod-lxc/install
 	$(INSTALL_DIR) $(1)/usr/lib/rpcd
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/lib/lxc.so $(1)/usr/lib/rpcd/
