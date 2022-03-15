@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=unixodbc
 PKG_VERSION:=2.3.9
-PKG_RELEASE:=2
+PKG_RELEASE:=3
 
 PKG_SOURCE:=unixODBC-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=http://www.unixodbc.org
@@ -24,6 +24,7 @@ HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/unixODBC-$(PKG_VERSION)
 HOST_BUILD_DEPENDS:=unixodbc
 
 PKG_FIXUP:=autoreconf
+PKG_AUTOMAKE_PATHS:=. libltdl
 
 # if your other package depends on unixodbc and needs
 # odbc_config, add to your other Makefile
