@@ -1010,18 +1010,16 @@ define RubyBuildPackage
     define Package/ruby-$(1)/description +=
 
 Provides:
-$(patsubst /%,
- - /%,$(RUBY_FILES))
-
+ $(patsubst /%,- /%
+,$(RUBY_FILES))
     endef
 
     ifneq ($(RUBY_FILES_EXCLUDED),)
       define Package/ruby-$(1)/description +=
 
 Except:
-$(patsubst /%,
- - /%,$(RUBY_FILES_EXCLUDED))
-
+ $(patsubst /%,- /%
+,$(RUBY_FILES_EXCLUDED))
       endef
     endif
 
