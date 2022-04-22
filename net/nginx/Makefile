@@ -505,11 +505,11 @@ define Prepare/nginx-ts
 endef
 
 define Download/nginx-naxsi
-  VERSION:=951123ad456bdf5ac94e8d8819342fe3d49bc002
+  VERSION:=2802c22f05150c87dfcc06a9e8cd67e1ffc21a50
   SUBDIR:=nginx-naxsi
   FILE:=nginx-naxsi-module-$$(VERSION).tar.xz
   URL:=https://github.com/nbs-system/naxsi.git
-  MIRROR_HASH:=c734cae19a596affadd62a2df1b58d3df8d1364093a4e80a7cd1ab4555963535
+  MIRROR_HASH:=bfbd3d19f7f06f93d5b92541ac4e7ed1849c1118d43254169632b1e01220b63c
   PROTO:=git
 endef
 
