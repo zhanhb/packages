@@ -8,13 +8,17 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=less
-PKG_VERSION:=598
+PKG_VERSION:=633
 PKG_RELEASE:=1
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:= @GNU/less \
-	http://www.greenwoodsoftware.com/less
-PKG_HASH:=64e0eb24534ac70d15ff3a36c8853f7a48196aa230d2a104707fc4ff1a45e982
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-beta.tar.gz
+PKG_SOURCE_URL:= \
+	$(if $(findstring beta,$(PKG_SOURCE)), \
+	https://www.greenwoodsoftware.com/less, \
+	@GNU/less \
+)
+
+PKG_HASH:=2f201d64b828b88af36dfe6cfdba3e0819ece2e446ebe6224813209aaefed04f
 
 PKG_LICENSE:=GPL-3.0-or-later
 PKG_LICENSE_FILES:=COPYING
