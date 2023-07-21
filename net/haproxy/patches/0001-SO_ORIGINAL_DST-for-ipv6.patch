@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: zhanhb <6323014+zhanhb@users.noreply.github.com>
+Date: Sat, 22 Jul 2023 04:05:28 +0800
+Subject: [PATCH] SO_ORIGINAL_DST for ipv6
+
+---
+ src/sock_inet.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/src/sock_inet.c b/src/sock_inet.c
+index 028ffaa68..d51116732 100644
+--- a/src/sock_inet.c
++++ b/src/sock_inet.c
+@@ -53,7 +53,7 @@ struct proto_fam proto_fam_inet6 = {
+ 	.addrcmp = sock_inet6_addrcmp,
+ 	.bind = sock_inet_bind_receiver,
+ 	.get_src = sock_get_src,
+-	.get_dst = sock_get_dst,
++	.get_dst = sock_inet_get_dst,
+ 	.set_port = sock_inet_set_port,
+ };
+ 
+@@ -155,6 +155,8 @@ int sock_inet_get_dst(int fd, struct sockaddr *sa, socklen_t salen, int dir)
+ 		 */
+ 		if (getsockopt(fd, IPPROTO_IP, SO_ORIGINAL_DST, sa, &salen) == 0)
+ 			return 0;
++		if (getsockopt(fd, IPPROTO_IPV6, SO_ORIGINAL_DST, sa, &salen) == 0)
++			return 0;
+ #endif
+ 		return ret;
+ 	}
