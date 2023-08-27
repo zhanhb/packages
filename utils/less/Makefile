@@ -12,8 +12,9 @@ PKG_VERSION:=685
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:= @GNU/less \
-	http://www.greenwoodsoftware.com/less
+PKG_SOURCE_URL:= \
+	$(if $(findstring beta,$(PKG_SOURCE)),,@GNU/less) \
+	https://www.greenwoodsoftware.com/less
 PKG_HASH:=2701041e767e697ee420ce0825641cedc8f20b51576abe99d92c1666d332e9dc
 
 PKG_LICENSE:=GPL-3.0-or-later
